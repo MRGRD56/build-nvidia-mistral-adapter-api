@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody
 import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import java.util.concurrent.CompletableFuture
 
 import su.kiriru.nvidiamistralapi.util.removeEach
@@ -211,11 +210,11 @@ class ProxyController {
             jsonBody.replace("messages", adaptedMessages)
         }
 
-        val responseBytes = objectMapper.writeValueAsBytes(jsonBody)
+        val requestBytes = objectMapper.writeValueAsBytes(jsonBody)
 
         return InputStreamEntity(
-            ByteArrayInputStream(responseBytes),
-            responseBytes.size.toLong(),
+            ByteArrayInputStream(requestBytes),
+            requestBytes.size.toLong(),
             ContentType.parse(request.contentType)
         )
     }
